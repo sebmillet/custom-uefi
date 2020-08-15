@@ -197,8 +197,8 @@ Display PK variable:
 Note that I did numerous tests during which I'd recreate PK key many times. How
 to make sure the certificate in PK is the one you expect?
 
-You can use this script [fpcer.sh]({static}/source/uefi/fpcer.sh) that'll prints out a certificate
-file fingerprint, and this script [fpvar.sh]({static}/source/uefi/fpvar.sh) to display a Secure Boot
+You can use this script [fpcer.sh](fpcer.sh) that'll prints out a certificate
+file fingerprint, and this script [fpvar.sh](fpvar.sh) to display a Secure Boot
 variable certificates fingerprints.
 
 Execution:
