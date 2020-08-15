@@ -1,5 +1,7 @@
-Customize Secure Boot
-=====================
+Title: Customize Secure Boot
+Date: 2020-06-19
+Authors: Sébastien Millet <milletseb@laposte.net>
+Category: TI
 
 1. Goal
 -------
@@ -16,7 +18,7 @@ certificates.
      Under Arch Linux, install the packages *efitools* and *sbsigntool*.
 
 If you want to see the abstract of commands to execute, go to
-[9. Abstract of commands](#abstract-of-commands)
+[8. Abstract of commands](#abstract-of-commands)
 
 ***
 
@@ -67,7 +69,7 @@ It'll be needed later in this document.
 
 The below assumes the USB key is accessible as */dev/sda*:
 <pre><code>    <b><span style="color: #b00000"># Commands executed as a regular user</span></b>
-
+     
     <b><span style="color: #0000a0">mkdir uefi</span></b>
     <b><span style="color: #0000a0">cd uefi</span></b>
     <b><span style="color: #0000a0">uuidgen > GUID.txt</span></b>
@@ -98,47 +100,47 @@ The below assumes the USB key is accessible as */dev/sda*:
     -rw-r--r-- 1 sebastien sebastien 1797  1 juin  11:55 PK.crt
     -rw-r--r-- 1 sebastien sebastien 1331  1 juin  11:55 PK.esl
     -rw------- 1 sebastien sebastien 3414  1 juin  11:55 PK.key
-
+     
     // PK.crt is PK certificate file, in PEM format
     // PK.key is PK certificate private key. I like to protect it with a password, if
     //        you you don't want a password, add -nodes option to openssl command.
     // PK.esl is PK.crt in the "EFI Signature List" format
     // PK.auth is PK.esl + signature done with PK.key
-
+     
     <b><span style="color: #0000a0">sudo su -</span></b>
-
+     
     <b><span style="color: #b00000"># Commands executed as root</span></b>
-
+     
     <b><span style="color: #0000a0">cd /mnt</span></b>
     <b><span style="color: #0000a0">fdisk /dev/sda</span></b>
-
+     
     Welcome to fdisk (util-linux 2.35.2).
     Changes will remain in memory only, until you decide to write them.
     Be careful before using the write command.
-
+     
     Device does not contain a recognized partition table.
     Created a new DOS disklabel with disk identifier 0xcbd7aa8a.
-
+     
     Command (m for help): <b><span style="color: #0000a0">g</span></b>
     Created a new GPT disklabel (GUID: B6DDF853-8C3B-D344-B1CC-66292334F64A).
-
+     
     Command (m for help): <b><span style="color: #0000a0">n</span></b>
     Partition number (1-128, default 1):
     First sector (2048-15728606, default 2048):
     Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-15728606, default 15728606): <b><span style="color: #0000a0">+500M</span></b>
-
+     
     Created a new partition 1 of type 'Linux filesystem' and of size 500 MiB.
-
+     
     Command (m for help): <b><span style="color: #0000a0">t</span></b>
     Selected partition 1
     Partition type (type L to list all types): <b><span style="color: #0000a0">1</span></b>
     Changed type of partition 'Linux filesystem' to 'EFI System'.
-
+     
     Command (m for help): <b><span style="color: #0000a0">w</span></b>
     The partition table has been altered.
     Calling ioctl() to re-read partition table.
     Syncing disks.
-
+     
     <b><span style="color: #0000a0">fdisk -l /dev/sda</span></b>
     Disk /dev/sda: 7.51 GiB, 8053063680 bytes, 15728640 sectors
     Disk model: Flash Disk
@@ -147,7 +149,7 @@ The below assumes the USB key is accessible as */dev/sda*:
     I/O size (minimum/optimal): 512 bytes / 512 bytes
     Disklabel type: gpt
     Disk identifier: B6DDF853-8C3B-D344-B1CC-66292334F64A
-
+     
     Device     Start     End Sectors  Size Type
     /dev/sda1   2048 1026047 1024000  500M EFI System
     <b><span style="color: #0000a0">mkfs.vfat /dev/sda1 -F 32 -n "USBKEYTOOL"</span></b>
@@ -168,11 +170,11 @@ The below assumes the USB key is accessible as */dev/sda*:
     total 8
     drwxr-xr-x 3 root root 4096  1 juin  12:01 EFI
     -rwxr-xr-x 1 root root 3299  1 juin  12:02 PK.auth
-
+     
     usb/EFI:
     total 4
     drwxr-xr-x 2 root root 4096  1 juin  12:02 BOOT
-
+     
     usb/EFI/BOOT:
     total 136
     -rwxr-xr-x 1 root root 136192  1 juin  12:02 bootx64.efi
@@ -195,8 +197,8 @@ Display PK variable:
 Note that I did numerous tests during which I'd recreate PK key many times. How
 to make sure the certificate in PK is the one you expect?
 
-You can use this script [fpcer.sh](fpcer.sh) that'll prints out a certificate
-file fingerprint, and this script [fpvar.sh](fpvar.sh) to display a Secure Boot
+You can use this script [fpcer.sh]({static}/source/uefi/fpcer.sh) that'll prints out a certificate
+file fingerprint, and this script [fpvar.sh]({static}/source/uefi/fpvar.sh) to display a Secure Boot
 variable certificates fingerprints.
 
 Execution:
@@ -703,7 +705,7 @@ Boot enabled.  On Arch Linux with bootctl, the file is
 
 ***
 
-8. Abstract of commands
+8. <a name="abstract-of-commands"></a>Abstract of commands
 -----------------------
 
 <pre><code><b><span style="color: #b00000"># Assumption: PK, KEK, db and dbx are set to default values</span></b>
@@ -764,9 +766,9 @@ Boot enabled.  On Arch Linux with bootctl, the file is
 
 ***
 
-arch-notes-installation (c) by Sébastien Millet
+customsb.md (c) by Sébastien Millet
 
-arch-notes-installation is licensed under a
+customsb.md is licensed under a
 Creative Commons Attribution 4.0 International License.
 
 You should have received a copy of the license along with this
