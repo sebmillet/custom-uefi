@@ -1,6 +1,6 @@
 Title: Customize Secure Boot
 Date: 2020-06-19
-Authors: Sébastien Millet <milletseb@laposte.net>
+Authors: Sébastien Millet
 Category: TI
 
 1. Goal
